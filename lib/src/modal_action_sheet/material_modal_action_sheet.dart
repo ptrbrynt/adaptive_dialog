@@ -11,7 +11,6 @@ class MaterialModalActionSheet<T> extends StatelessWidget {
     this.message,
     this.actions,
     this.cancelLabel,
-    this.materialConfiguration,
   }) : super(key: key);
 
   final ActionCallback<T> onPressed;
@@ -19,7 +18,6 @@ class MaterialModalActionSheet<T> extends StatelessWidget {
   final String message;
   final List<SheetAction<T>> actions;
   final String cancelLabel;
-  final MaterialModalActionSheetConfiguration materialConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -58,23 +56,13 @@ class MaterialModalActionSheet<T> extends StatelessWidget {
         );
       }),
     ];
-    if (materialConfiguration == null) {
-      return SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      );
-    }
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: materialConfiguration.initialChildSize,
-      minChildSize: materialConfiguration.minChildSize,
-      maxChildSize: materialConfiguration.maxChildSize,
-      builder: (context, controller) => ListView(
-        controller: controller,
-        children: children,
+
+    return ListView(
+      padding: EdgeInsets.symmetric(
+        vertical: MediaQuery.of(context).viewPadding.vertical,
       ),
+      children: children,
+      shrinkWrap: true,
     );
   }
 }
